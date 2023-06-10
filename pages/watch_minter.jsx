@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Form, ButtonToolbar, Button, Panel, FlexboxGrid, Progress } from 'rsuite';
-import Web3, { eth } from 'web3';
+import { Button, Panel, FlexboxGrid, Progress } from 'rsuite';
+import Web3 from 'web3';
 import GoodsNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/GoodsNFT.json";
-import Market from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/Market.json";
 import Header from './components/Header'
 import { ifpsToPicture } from './components/ListedForSale';
 
@@ -11,7 +10,6 @@ const WatchMinter = () => {
 
     const [web3, setWeb3] = useState(null);
     const [goodsNFTContract, setContract] = useState(null);
-    // const [marketContract, setMarketContract] = useState(null);
     const [account, setAccount] = useState("");
     const [totalSupply, setTotalSupply] = useState(null);
     const [maxSupply, setMaxSupply] = useState(null);
@@ -49,27 +47,6 @@ const WatchMinter = () => {
         }
     }, [web3]);
 
-    // useEffect(() => {
-    //     const loadContract = async () => {
-    //         try {
-    //             const networkId = await web3.eth.net.getId();
-    //             const deployedNetwork = Market.networks[networkId];
-    //             const instance = new web3.eth.Contract(
-    //                 Market.abi,
-    //                 deployedNetwork && deployedNetwork.address
-    //             );
-    //             // const campaigns = await marketContract.methods.getTokensOnSale().call();
-    //             // console.log(campaigns)
-    //             setMarketContract(instance);
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-
-    //     if (web3) {
-    //         loadContract();
-    //     }
-    // }, [web3]);
 
     useEffect(() => {
         const loadAccount = async () => {
@@ -82,18 +59,6 @@ const WatchMinter = () => {
         }
     }, [web3]);
 
-    // const handleCreateNFT = async () => {
-    //     if (contract && account) {
-    //       try {
-    //         await contract.methods.mintNFT(account, "ipfs://bafkreibdw6zzjn3rs33hvuyxja6hrrb4vozdftu5pwyikplkblp2uyygz4").send({ from: account });
-    //         console.log(account)
-    //         alert("NFT created successfully!");
-    //       } catch (error) {
-    //         console.error(error);
-    //         alert("Failed to create NFT");
-    //       }
-    //     }
-    //   };
 
     const handleCreateNFT = async () => {
         if (goodsNFTContract) {
@@ -102,8 +67,6 @@ const WatchMinter = () => {
                 
 
                 const price = Number(await goodsNFTContract.methods.getPrice().call())
-                // const contractData = await goodsNFTContract.methods.getContractData().call();
-                // console.log(Number(contractData.methods.mintPrice));
 
 
                 console.log(goodsNFTContract.methods.totalSupply());
@@ -124,6 +87,18 @@ const WatchMinter = () => {
             }
         }
     };
+
+    useEffect(() => {
+        const setData = async () => {
+          if(goodsNFTContract) {
+          setNftPrice(Number(await goodsNFTContract.methods.getPrice().call()));
+          setTotalSupply(Number(await goodsNFTContract.methods.getTotalSupply().call()));
+          setMaxSupply(Number(await goodsNFTContract.methods.getMaxSupply().call()));
+        };
+      }
+
+        setData();
+    }, [goodsNFTContract]);
 
 
     {

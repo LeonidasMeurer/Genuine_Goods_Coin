@@ -12,16 +12,7 @@ const Header = ({ ...props }) => {
         </Nav.Item>
         <Nav.Item href='/listed_for_sale'>Market</Nav.Item>
         <Nav.Item href='/watch_minter'>Watches</Nav.Item>
-        <Nav.Item href='/prada_minter'>Prada</Nav.Item>
-        <Nav.Item href='/dynamic_minter'>dynamic_minter</Nav.Item>
-
-
-
-        {/* <Nav.Menu title="About">
-          <Nav.Item href='/listed_for_sale'>Watches</Nav.Item>
-          <Nav.Item eventKey="5">Team</Nav.Item>
-          <Nav.Item eventKey="6">Contact</Nav.Item>
-        </Nav.Menu> */}
+        <Nav.Item href='/dynamic_minter'>Prada</Nav.Item>
       </Nav>
       <Nav pullRight>
         <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>

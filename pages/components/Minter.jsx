@@ -1,106 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Form, ButtonToolbar, Button, Panel, FlexboxGrid, Progress } from 'rsuite';
-import Header from './Header'
+import { Button, Panel, FlexboxGrid, Progress } from 'rsuite';
 import { ifpsToPicture } from './ListedForSale';
 
 
 const Minter = ({contract, account, ifps, description}) => {
 
-    // const [web3, setWeb3] = useState(null);
-    // const [marketContract, setMarketContract] = useState(null);
-    // const [account, setAccount] = useState("");
+
     const [totalSupply, setTotalSupply] = useState(null);
     const [maxSupply, setMaxSupply] = useState(null);
     const [nftPrice, setNftPrice] = useState(null);
 
-    // useEffect(() => {
-    //     const loadWeb3 = async () => {
-    //         if (window.ethereum) {
-    //             window.web3 = new Web3(window.ethereum);
-    //             await window.ethereum.enable();
-    //             setWeb3(window.web3);
-    //         }
-    //     };
+    useEffect(() => {
+        const setData = async () => {
+          if(contract) {
+          setNftPrice(Number(await contract.methods.getPrice().call()));
+          setTotalSupply(Number(await contract.methods.getTotalSupply().call()));
+          setMaxSupply(Number(await contract.methods.getMaxSupply().call()));
+        };
+      }
 
-    //     loadWeb3();
-    // }, []);
+        setData();
+    }, [contract]);
 
-    // useEffect(() => {
-    //     const loadContract = async () => {
-    //         try {
-    //             const networkId = await web3.eth.net.getId();
-    //             const deployedNetwork = contract.networks[networkId];
-    //             const instance = new web3.eth.Contract(
-    //               contract.abi,
-    //                 deployedNetwork && deployedNetwork.address
-    //             );
-    //             setContract(instance);
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-
-    //     if (web3) {
-    //         loadContract();
-    //     }
-    // }, [web3]);
-
-    // useEffect(() => {
-    //     const loadContract = async () => {
-    //         try {
-    //             const networkId = await web3.eth.net.getId();
-    //             const deployedNetwork = Market.networks[networkId];
-    //             const instance = new web3.eth.Contract(
-    //                 Market.abi,
-    //                 deployedNetwork && deployedNetwork.address
-    //             );
-    //             // const campaigns = await marketContract.methods.getTokensOnSale().call();
-    //             // console.log(campaigns)
-    //             setMarketContract(instance);
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-
-    //     if (web3) {
-    //         loadContract();
-    //     }
-    // }, [web3]);
-
-    // useEffect(() => {
-    //     const loadAccount = async () => {
-    //         const accounts = await web3.eth.getAccounts();
-    //         setAccount(accounts[0]);
-    //     };
-
-    //     if (web3) {
-    //         loadAccount();
-    //     }
-    // }, [web3]);
-
-    // const handleCreateNFT = async () => {
-    //     if (contract && account) {
-    //       try {
-    //         await contract.methods.mintNFT(account, "ipfs://bafkreibdw6zzjn3rs33hvuyxja6hrrb4vozdftu5pwyikplkblp2uyygz4").send({ from: account });
-    //         console.log(account)
-    //         alert("NFT created successfully!");
-    //       } catch (error) {
-    //         console.error(error);
-    //         alert("Failed to create NFT");
-    //       }
-    //     }
-    //   };
-
+    
+  
     const handleCreateNFT = async () => {
         if (contract) {
             try {
                 console.log("NFT Address:", contract._address)
                 
 
-                const price = Number(await contract.methods.getPrice().call())
-                // const contractData = await goodsNFTContract.methods.getContractData().call();
-                // console.log(Number(contractData.methods.mintPrice));
-
+                const price = Number(await contract.methods.getPrice().call());
 
                 console.log(contract.methods.totalSupply());
 

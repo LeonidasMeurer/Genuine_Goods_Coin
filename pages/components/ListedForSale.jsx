@@ -1,7 +1,5 @@
 import { Table, Button } from 'rsuite';
-import Market from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/Market.json";
 import React, { useState, useEffect } from 'react';
-// import { Link } from '/home/leonidas/Documents/Genuine_Goods_Coin/routes.js';
 
 export const ifpsToPicture = new Map();
     ifpsToPicture.set(
@@ -60,7 +58,7 @@ const ListedForSale = ({ marketContract, goodsNFTContract, pradaNFTContract, acc
                         "tokenId": Number(token.tokenId),
                         "seller": token.seller,
                         "token": token.token,
-                        "price": `${Number(token.price)} ETH`,
+                        "price": Number(token.price),
                         "picture": ifpsToPicture.get(tokenURI),
                         "buy": "Buy Now!",
                         "number": i + 1,
@@ -132,9 +130,14 @@ const ListedForSale = ({ marketContract, goodsNFTContract, pradaNFTContract, acc
                     <ImageCell dataKey="picture" height={40} width={25}/>
                 </Column>
 
-                <Column width={100}>
+                <Column width={80}>
                     <HeaderCell>Price</HeaderCell>
                     <Cell dataKey="price" />
+                </Column>
+
+                <Column width={80}>
+                    <HeaderCell></HeaderCell>
+                    <Cell>wei</Cell>
                 </Column>
 
                 <Column width={150}>

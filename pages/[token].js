@@ -1,5 +1,3 @@
-// import 'rsuite/dist/rsuite.min.css';
-
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import GoodsNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/GoodsNFT.json";
@@ -20,16 +18,11 @@ const Token = () => {
 
     const [web3, setWeb3] = useState(null);
     const [marketContract, setMarketContract] = useState(null);
-    const [account, setAccount] = useState("");
     const [tokenURI, setTokenURI] = useState("");
     const [goodsNFTContract, setContract] = useState("");
     const [pradaNFTContract, setPradaNFTContract] = useState("");
 
-    const [tokensOnSale, setTokensOnSale] = useState([]);
-    const [nftPrice, setNftPrice] = useState("");
-    const [balance, setBalance] = useState(0);
-    const [nftTransferred, setNftTransferred] = useState(false);
-    const [nftsForSale, setNftsForSale] = useState([]);
+
 
     useEffect(() => {
         const loadWeb3 = async () => {
@@ -113,17 +106,6 @@ const Token = () => {
             loadAccount();
         }
     }, [web3]);
-
-    // useEffect(() => {
-    //     const getImage = async () => {
-    //         if (contract) {
-    //             const uri = await contract.methods.tokenURI(tokenId).call();
-    //             setTokenURI(uri)
-    //         }
-    //     };
-    //     getImage();
-    // }, [contract]);
-
     
 
     useEffect(() => {

@@ -204,11 +204,12 @@ const App = () => {
                     <Form style={{ paddingBottom: 100 }}>
                         <Form.Group controlId="name">
                             <Form.ControlLabel>TokenId</Form.ControlLabel>
-                            <Form.Control name="name" type="number" onChange={(value) => setTokenId(value)} />
+                            <Form.Control type="number" onChange={(value) => setTokenId(value)} />
                         </Form.Group>
                         <Form.Group controlId="email">
                             <Form.ControlLabel>Price</Form.ControlLabel>
                             <Form.Control type="number" onChange={(value) => setNftPrice(value)} />
+                            <Form.HelpText tooltip>Price is in wei!</Form.HelpText>
                         </Form.Group>
                         <Form.Group controlId="email">
                             <Form.ControlLabel>NFT Contract Address</Form.ControlLabel>
