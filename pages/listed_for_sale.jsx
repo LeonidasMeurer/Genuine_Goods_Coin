@@ -154,9 +154,6 @@ const App = () => {
         fetchNftsForSale();
     }, [marketContract]);
 
-    if(!marketContract || !goodsNFTContract || !pradaNFTContract) {
-        return <h1>loading...</h1>
-    }
 
     // const handleCreateNFT = async () => {
     //     if (contract && account) {
