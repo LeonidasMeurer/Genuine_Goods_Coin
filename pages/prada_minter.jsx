@@ -111,18 +111,19 @@ const WatchMinter = () => {
         }
     };
 
-    
+
     {
         return (
             <div>
                 <Header appearance="inverse" />
                 <div style={{ paddingLeft: 30, paddingTop: 30 }} >
-                <div>
-                <h3>Watch Minter</h3>
-                <h6 style={{paddingBottom: 10}}>Logged in as: {account}</h6>
-                <img src={ifpsToPicture.get("ipfs://bafkreigdeafb7xsb3z6unl3wpepscivp4tgzwzir3ii27kiapckxcdjoem")}/>
-                </div>
-                <Button appearance="primary" onClick={() => handleCreateNFT()}>Buy Watch</Button>
+                    <div>
+                        <h3>Watch Minter</h3>
+                        <h6 style={{ paddingBottom: 10 }}>Logged in as: {account}</h6>
+                        <img src={ifpsToPicture.get("ipfs://bafkreigdeafb7xsb3z6unl3wpepscivp4tgzwzir3ii27kiapckxcdjoem")}
+                            width={250} height={250} />
+                    </div>
+                    <Button appearance="primary" onClick={() => handleCreateNFT()}>Buy Watch</Button>
                 </div>
 
             </div>

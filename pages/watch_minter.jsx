@@ -120,7 +120,8 @@ const WatchMinter = () => {
                 <div>
                 <h3>Watch Minter</h3>
                 <h6 style={{paddingBottom: 10}}>Logged in as: {account}</h6>
-                <img src={ifpsToPicture.get("ipfs://bafkreibdw6zzjn3rs33hvuyxja6hrrb4vozdftu5pwyikplkblp2uyygz4")}/>
+                <img src={ifpsToPicture.get("ipfs://bafkreibdw6zzjn3rs33hvuyxja6hrrb4vozdftu5pwyikplkblp2uyygz4")}
+                width={250} height={250} />
                 </div>
                 <Button appearance="primary" onClick={() => handleCreateNFT()}>Buy Watch</Button>
                 </div>
