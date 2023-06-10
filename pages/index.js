@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Form, ButtonToolbar, Button } from 'rsuite';
+import { Form, ButtonToolbar, Button, SelectPicker } from 'rsuite';
 import Web3 from 'web3';
 import GoodsNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/GoodsNFT.json";
+import PradaNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/PradaNFT.json";
 import Market from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/Market.json";
 import Header from './components/Header'
 
@@ -19,13 +20,14 @@ const App = () => {
 
     const [web3, setWeb3] = useState(null);
     const [goodsNFTContract, setContract] = useState(null);
+    const [pradaNFTContract, setPradaContract] = useState(null);
     const [marketContract, setMarketContract] = useState(null);
     const [account, setAccount] = useState("");
     const [tokenId, setTokenId] = useState("");
     const [listingId, setListingId] = useState("");
     const [tokensOnSale, setTokensOnSale] = useState([]);
     const [nftPrice, setNftPrice] = useState("");
-    const [balance, setBalance] = useState("");
+    const [currentNftContract, setCurrentNftContract] = useState("");
 
 
 
@@ -51,6 +53,26 @@ const App = () => {
                     deployedNetwork && deployedNetwork.address
                 );
                 setContract(instance);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (web3) {
+            loadContract();
+        }
+    }, [web3]);
+
+    useEffect(() => {
+        const loadContract = async () => {
+            try {
+                const networkId = await web3.eth.net.getId();
+                const deployedNetwork = PradaNFT.networks[networkId];
+                const instance = new web3.eth.Contract(
+                    PradaNFT.abi,
+                    deployedNetwork && deployedNetwork.address
+                );
+                setPradaContract(instance);
             } catch (error) {
                 console.error(error);
             }
@@ -131,12 +153,19 @@ const App = () => {
         if (marketContract) {
             try {
                 console.log(nftPrice, tokenId)
-                await goodsNFTContract.methods.approve(marketContract._address, tokenId).send({ from: account })
-                // await goodsNFTContract.methods.setApprovalForAll(marketContract._address, true)
-                console.log(goodsNFTContract._address)
-                console.log(await marketContract.methods.listToken(goodsNFTContract._address, tokenId, nftPrice).send({ from: account }))
-                // tokensOnSale = await marketContract.methods.getTokensOnSale().call();
-                console.log(tokensOnSale)
+                console.log(currentNftContract)
+
+                if (currentNftContract == "Watch NFT") {
+                    await goodsNFTContract.methods.approve(marketContract._address, tokenId).send({ from: account })
+                    await marketContract.methods.listToken(goodsNFTContract._address, tokenId, nftPrice).send({ from: account })
+                } else {
+                    await pradaNFTContract.methods.approve(marketContract._address, tokenId).send({ from: account })
+                    await marketContract.methods.listToken(pradaNFTContract._address, tokenId, nftPrice).send({ from: account })
+                }
+                
+                // await pradaNFTContract.methods.approve(marketContract._address, tokenId).send({ from: account })
+                // console.log(await marketContract.methods.listToken(goodsNFTContract._address, tokenId, nftPrice).send({ from: account }))
+                // console.log(tokensOnSale)
             } catch (error) {
                 console.error(error);
                 alert("Failed to load!");
@@ -161,6 +190,10 @@ const App = () => {
         }
     }
 
+    const data = [`Watch NFT`, 'Prada NFT'].map(
+        item => ({ label: item, value: item })
+      );
+
     {
         return (
             <div>
@@ -175,7 +208,11 @@ const App = () => {
                         </Form.Group>
                         <Form.Group controlId="email">
                             <Form.ControlLabel>Price</Form.ControlLabel>
-                            <Form.Control name="email" type="number" onChange={(value) => setNftPrice(value)} />
+                            <Form.Control type="number" onChange={(value) => setNftPrice(value)} />
+                        </Form.Group>
+                        <Form.Group controlId="email">
+                            <Form.ControlLabel>NFT Contract Address</Form.ControlLabel>
+                            <SelectPicker data={data} style={{ width: 300 }} onChange={(value) => setCurrentNftContract(value)}/>
                         </Form.Group>
                         <Form.Group>
                             <ButtonToolbar>

@@ -123,7 +123,7 @@ const WatchMinter = () => {
                         <img src={ifpsToPicture.get("ipfs://bafkreigdeafb7xsb3z6unl3wpepscivp4tgzwzir3ii27kiapckxcdjoem")}
                             width={250} height={250} />
                     </div>
-                    <Button appearance="primary" onClick={() => handleCreateNFT()}>Buy Watch</Button>
+                    <Button appearance="primary" onClick={() => handleCreateNFT()} style={{marginTop: 10}}>Buy Handbag</Button>
                 </div>
 
             </div>

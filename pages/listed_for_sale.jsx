@@ -4,6 +4,8 @@ import React, { Component, useState, useEffect } from 'react';
 // import { Link } from '../../routes';
 import Web3 from 'web3';
 import GoodsNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/GoodsNFT.json";
+import PradaNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/PradaNFT.json";
+
 import Market from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/Market.json";
 // import instance from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/factory/factoryGoodsNFT.js"
 import Minter from './components/Minter'
@@ -24,6 +26,7 @@ const App = () => {
 
     const [web3, setWeb3] = useState(null);
     const [goodsNFTContract, setContract] = useState(null);
+    const [pradaNFTContract, setPradaNFTContract] = useState(null);
     const [marketContract, setMarketContract] = useState(null);
     const [account, setAccount] = useState("");
     const [tokenId, setTokenId] = useState("");
@@ -56,6 +59,26 @@ const App = () => {
                     deployedNetwork && deployedNetwork.address
                 );
                 setContract(instance);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (web3) {
+            loadContract();
+        }
+    }, [web3]);
+
+    useEffect(() => {
+        const loadContract = async () => {
+            try {
+                const networkId = await web3.eth.net.getId();
+                const deployedNetwork = PradaNFT.networks[networkId];
+                const instance = new web3.eth.Contract(
+                    PradaNFT.abi,
+                    deployedNetwork && deployedNetwork.address
+                );
+                setPradaNFTContract(instance);
             } catch (error) {
                 console.error(error);
             }
@@ -131,6 +154,10 @@ const App = () => {
         fetchNftsForSale();
     }, [marketContract]);
 
+    if(!marketContract || !goodsNFTContract || !pradaNFTContract) {
+        return <h1>loading...</h1>
+    }
+
     // const handleCreateNFT = async () => {
     //     if (contract && account) {
     //       try {
@@ -150,18 +177,23 @@ const App = () => {
                 <Header appearance="inverse" />
                 <div style={{ paddingLeft: 30, paddingTop: 30 }} >
 
-                <h3>Market</h3>
-                {/* <Link route={`/test`}>
+                    <h3>Market</h3>
+                    {/* <Link route={`/test`}>
                     Test
                 </Link> */}
-                {/* <button onClick={console.log(marketContract)}>Mint</button> */}
-                <ListedForSale marketContract={marketContract} goodsNFTContract={goodsNFTContract} account={account} tokensOnSale={tokensOnSale} />
+                    {/* <button onClick={console.log(marketContract)}>Mint</button> */}
+                    <ListedForSale
+                        marketContract={marketContract}
+                        goodsNFTContract={goodsNFTContract}
+                        pradaNFTContract={pradaNFTContract}
+                        account={account}
+                        tokensOnSale={tokensOnSale} />
                 </div>
             </div>
         );
     }
 
-    
+
 }
 
 // App.getLayout = function getLayout(page) {

@@ -25,20 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/listed_for_sale": [
+    "/dynamic_minter": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/listed_for_sale.js"
-    ],
-    "/prada_minter": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/prada_minter.js"
-    ],
-    "/watch_minter": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/watch_minter.js"
+      "static/chunks/pages/dynamic_minter.js"
     ]
   },
   "ampFirstPages": []

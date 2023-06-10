@@ -5,7 +5,7 @@ import CogIcon from '@rsuite/icons/legacy/Cog';
 const Header = ({ ...props }) => {
   return (
     <Navbar {...props}>
-      <Navbar.Brand disabled >JustWatch</Navbar.Brand>
+      <Navbar.Brand disabled >ToMuchMoney!</Navbar.Brand>
       <Nav>
         <Nav.Item href='/' icon={<HomeIcon />}>
           Home
@@ -13,6 +13,8 @@ const Header = ({ ...props }) => {
         <Nav.Item href='/listed_for_sale'>Market</Nav.Item>
         <Nav.Item href='/watch_minter'>Watches</Nav.Item>
         <Nav.Item href='/prada_minter'>Prada</Nav.Item>
+        <Nav.Item href='/dynamic_minter'>dynamic_minter</Nav.Item>
+
 
 
         {/* <Nav.Menu title="About">

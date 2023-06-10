@@ -8,28 +8,38 @@ contract GoodsNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    struct NFT {
-        address owner;
-        uint256 price;
-        string tokenURI;
+    uint256 public mintPrice;
+    uint256 public totalSupply;
+    uint256 public maxSupply;
+
+    constructor() ERC721("NFTContract", "NFTC") {
+        mintPrice = 1 ether;
+        totalSupply = 0;
+        maxSupply = 3;
     }
 
-    mapping(uint256 => NFT) private _nfts;
+    function mintNFT(address recipient, string memory tokenURI) public payable returns (uint256) {
+        require(msg.value >= mintPrice, "Wrong mint value");
+        require(totalSupply + 1 <= maxSupply, "Sold out");
 
-    constructor() ERC721("NFTContract", "NFTC") {}
-
-    function mintNFT(address recipient, string memory tokenURI) public returns (uint256) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
-        _nfts[newItemId] = NFT(recipient, 0, tokenURI);
+        totalSupply++;
+
         return newItemId;
     }
 
-    function getNFT(uint256 tokenId) public view returns (address owner, uint256 price, string memory tokenURI) {
-        require(_exists(tokenId), "NFT does not exist");
-        NFT storage nft = _nfts[tokenId];
-        return (nft.owner, nft.price, nft.tokenURI);
+    function getPrice() public returns (uint256) {
+        return mintPrice;
+    }
+
+    function getTotalSupply() public returns (uint256) {
+        return totalSupply;
+    }
+
+    function getMaxSupply() public returns (uint256) {
+        return maxSupply;
     }
 }

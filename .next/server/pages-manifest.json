@@ -2,7 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/watch_minter": "pages/watch_minter.js",
-  "/listed_for_sale": "pages/listed_for_sale.js",
-  "/prada_minter": "pages/prada_minter.js"
+  "/dynamic_minter": "pages/dynamic_minter.js"
 }
