@@ -2,7 +2,7 @@ import './styles.css';
 
 import React, { Component } from 'react';
 import { Link } from '../routes';
-import App from './components/index.js'
+import App from './index.js'
 
 
 // ReactDOM.render(
@@ -12,13 +12,20 @@ import App from './components/index.js'
 //   document.getElementById('root')
 // );
 
-class Index extends Component {
+// class Index extends Component {
 
-  render() {
-    return (
-          <App/>
-    );
-  }
+//   render() {
+//     return (
+//           <App/>
+//     );
+//   }
+// }
+
+// export default Index;
+
+export default function MyApp({ Component, pageProps }) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout || ((page) => page)
+ 
+  return getLayout(<Component {...pageProps} />)
 }
-
-export default Index;
