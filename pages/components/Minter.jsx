@@ -65,7 +65,7 @@ const Minter = ({contract, account, ifps, description}) => {
                             </FlexboxGrid.Item>
                             <FlexboxGrid.Item colspan={18}>
                                 <Panel header="Sure fits alot of stuff in there!" bordered >
-                                <h6 style={{ paddingBottom: 10 }}>Price: {nftPrice}</h6>
+                                <h6 style={{ paddingBottom: 10 }}>Price: {nftPrice} wei</h6>
                                 <h6 style={{ paddingBottom: 10 }}>Total Supply: {maxSupply}</h6>
                                 <h6 style={{ paddingBottom: 10 }}>Amount Sold: {totalSupply}</h6>
                                 <Progress.Line percent={totalSupply / maxSupply * 100} showInfo={false} />
