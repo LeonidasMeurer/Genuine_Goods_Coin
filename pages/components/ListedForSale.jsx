@@ -13,6 +13,17 @@ const ListedForSale = () => {
         setNftsForSale(await fetchNftsForSale());
     }
 
+    const buy = async (number, price) => {
+        await buyNft(number, price)
+        await fetch();
+    }
+    useEffect(() => {
+        const setData = async () => {
+            setNftsForSale(await fetchNftsForSale());
+        }
+        setData();
+    }, []);
+
     const ImageCell = ({ rowData, dataKey, ...props }) => (
         <Cell {...props}>
             <div
@@ -29,10 +40,9 @@ const ListedForSale = () => {
         </Cell>
     );
 
-
     return (
         <div>
-            <Button onClick={fetch}>Load NFTs for Sale!</Button>
+            {/* <Button onClick={fetch}>Load NFTs for Sale!</Button> */}
 
             <Table
                 height={400}
@@ -109,7 +119,7 @@ const ListedForSale = () => {
                         {rowData => (
                             <div>
                                 {rowData.status == 0 ?
-                                    <Button style={{background: "green", color: "white"}} onClick={() => buyNft(rowData.number, rowData.price)}>
+                                    <Button style={{background: "green", color: "white"}} onClick={() => buy(rowData.number, rowData.price)}>
                                         Buy NFT!
                                     </Button>
                                     : <div/>

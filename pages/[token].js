@@ -2,46 +2,38 @@ import React, { useState, useEffect, lazy } from 'react';
 import Web3 from 'web3';
 import { useRouter } from 'next/router';
 
-import { goodsNFTContract, pradaNFTContract, marketContract, ifpsToPicture } from './Web3Client';
+import { goodsNFTContract, pradaNFTContract, marketContract, ifpsToPicture, getTokenData } from './Web3Client';
 
 
 import Header from './components/Header';
 import { Button } from 'rsuite';
 
-
-
-
 const Token = () => {
 
     const router = useRouter();
-    const tokenId = router.query.token;
 
-    const [web3, setWeb3] = useState(null);
     const [tokenURI, setTokenURI] = useState("");
+    const [tokenId, setTokenId] = useState("")
 
     useEffect(() => {
-        const loadWeb3 = async () => {
-            if (window.ethereum) {
-                window.web3 = new Web3(window.ethereum);
-                await window.ethereum.enable();
-                setWeb3(window.web3);
-            }
-        };
+        const setData = async () => {
+            setTokenId(router.query.token)
+            setTokenURI(await getTokenData(router.query.token));
+        }
+        setData();
+    }, [router]);
 
-        loadWeb3();
-    }, []);
+    // const getImage = async () => {
+    //         const token = await marketContract.methods.getListing(tokenId).call();
 
-    const getImage = async () => {
-            const token = await marketContract.methods.getListing(tokenId).call();
-
-            if (token.token == goodsNFTContract._address) {
-                console.log(true)
-                setTokenURI(await goodsNFTContract.methods.tokenURI(Number(token.tokenId)).call());
-            } else {
-                console.log(false)
-                setTokenURI(await pradaNFTContract.methods.tokenURI(Number(token.tokenId)).call());
-            }
-    }
+    //         if (token.token == goodsNFTContract._address) {
+    //             console.log(true)
+    //             setTokenURI(await goodsNFTContract.methods.tokenURI(Number(token.tokenId)).call());
+    //         } else {
+    //             console.log(false)
+    //             setTokenURI(await pradaNFTContract.methods.tokenURI(Number(token.tokenId)).call());
+    //         }
+    // }
 
     {
         return (
