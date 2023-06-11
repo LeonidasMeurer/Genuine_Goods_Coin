@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Panel, FlexboxGrid, Progress } from 'rsuite';
-import { ifpsToPicture } from './ListedForSale';
+import { ifpsToPicture } from '../Web3Client.js';
 
 
-const Minter = ({contract, account, ifps, description}) => {
+const Minter = ({contract, account, ifps, description, title, headline}) => {
 
 
     const [totalSupply, setTotalSupply] = useState(null);
@@ -18,12 +18,9 @@ const Minter = ({contract, account, ifps, description}) => {
           setMaxSupply(Number(await contract.methods.getMaxSupply().call()));
         };
       }
-
         setData();
     }, [contract]);
 
-    
-  
     const handleCreateNFT = async () => {
         if (contract) {
             try {
@@ -51,12 +48,11 @@ const Minter = ({contract, account, ifps, description}) => {
         }
     };
 
-
     {
         return (
             <div>
-                    <div style={{ flex: true }}>
-                        <h3>Prada Minter</h3>
+                    <div>
+                        <h3>{title}</h3>
                         <h6 style={{ paddingBottom: 10 }}>Logged in as: {account}</h6>
                         <FlexboxGrid>
                             <FlexboxGrid.Item colspan={5}>
@@ -64,7 +60,7 @@ const Minter = ({contract, account, ifps, description}) => {
                                     width={350} height={250} />
                             </FlexboxGrid.Item>
                             <FlexboxGrid.Item colspan={18}>
-                                <Panel header="Sure fits alot of stuff in there!" bordered >
+                                <Panel header={headline} bordered >
                                 <h6 style={{ paddingBottom: 10 }}>Price: {nftPrice} wei</h6>
                                 <h6 style={{ paddingBottom: 10 }}>Total Supply: {maxSupply}</h6>
                                 <h6 style={{ paddingBottom: 10 }}>Amount Sold: {totalSupply}</h6>
@@ -86,8 +82,6 @@ const Minter = ({contract, account, ifps, description}) => {
                 </div>
         );
     }
-
-
 }
 
 export default Minter;

@@ -1,82 +1,16 @@
 import { Table, Button } from 'rsuite';
 import React, { useState, useEffect } from 'react';
 
-export const ifpsToPicture = new Map();
-    ifpsToPicture.set(
-        "ipfs://bafkreibv7ugie5cj7xpl3hk6c3rrmk3kgtgkex4czyccrywsy6bhmzcire",
-        "https://bafybeibh7bttqvwxuadnatdgqwb57j3am6dmpn6bsomx2sypagdnl5os3i.ipfs.nftstorage.link/"
-    )
-    ifpsToPicture.set(
-        "ipfs://bafkreigdeafb7xsb3z6unl3wpepscivp4tgzwzir3ii27kiapckxcdjoem",
-        "https://bafybeiaef4ijjz4xq6k6w6gzguygubj4ktq3vlqjbpbudtgb35wck32yla.ipfs.nftstorage.link/"
-    )
+import { fetchNftsForSale, buyNft } from '../Web3Client';
 
 const { Column, HeaderCell, Cell } = Table;
 
-const ListedForSale = ({ marketContract, goodsNFTContract, pradaNFTContract, account, tokensOnSale }) => {
+const ListedForSale = () => {
 
-    // let tokensOnSale = [];
-    console.log(tokensOnSale)
+    const [nftsForSale, setNftsForSale] = useState(undefined);
 
-    const [nftsForSale, setNftsForSale] = useState([]);
-    
-    const buyNft = async (listId, price) => {
-        if (marketContract) {
-            try {
-                console.log(listId)
-                console.log(await marketContract.methods.buyToken(listId).send({ from: account, value: price }))
-            } catch (error) {
-                console.error(error);
-                alert("Failed to load!");
-            }
-        }
-    }
-
-
-    const fetchNftsForSale = async () => {
-        if (marketContract) {
-            const tokenList = [];
-            let tokenURI = "";
-            try {
-                for (let i = 0; i < tokensOnSale.length; i++) {
-                    const token = await marketContract.methods.getListing(i + 1).call();
-
-                    console.log(token.token);
-                    console.log(goodsNFTContract._address)
-                    if(token.token == goodsNFTContract._address) {
-                        console.log(true)
-                        tokenURI = await goodsNFTContract.methods.tokenURI(Number(tokensOnSale[i].tokenId)).call();
-                    } else {
-                        console.log(false)
-                        tokenURI = await pradaNFTContract.methods.tokenURI(Number(tokensOnSale[i].tokenId)).call();
-                    }
-
-
-                    // const tokenURI = await goodsNFTContract.methods.tokenURI(Number(tokensOnSale[i].tokenId)).call();
-
-                    tokenList.push({
-                        "tokenId": Number(token.tokenId),
-                        "seller": token.seller,
-                        "token": token.token,
-                        "price": Number(token.price),
-                        "picture": ifpsToPicture.get(tokenURI),
-                        "buy": "Buy Now!",
-                        "number": i + 1,
-                        "status": Number(token.status),
-                    })
-                }
-                setNftsForSale(tokenList);
-                
-            } catch (error) {
-                console.error(error);
-                alert("Failed to load!");
-            }
-        }
-    };
-
-
-    if(!marketContract || !goodsNFTContract || !pradaNFTContract) {
-        return <h1>loading...</h1>
+    const fetch = async () => {
+        setNftsForSale(await fetchNftsForSale());
     }
 
     const ImageCell = ({ rowData, dataKey, ...props }) => (
@@ -98,7 +32,7 @@ const ListedForSale = ({ marketContract, goodsNFTContract, pradaNFTContract, acc
 
     return (
         <div>
-            <Button onClick={fetchNftsForSale}>Load NFTs for Sale!</Button>
+            <Button onClick={fetch}>Load NFTs for Sale!</Button>
 
             <Table
                 height={400}

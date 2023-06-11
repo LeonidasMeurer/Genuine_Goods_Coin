@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Form, ButtonToolbar, Button, SelectPicker } from 'rsuite';
 import Web3 from 'web3';
-import GoodsNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/GoodsNFT.json";
-import PradaNFT from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/PradaNFT.json";
-import Market from "/home/leonidas/Documents/Genuine_Goods_Coin/ethereum/build/contracts/Market.json";
+
+// import GoodsNFT from "contracts/GoodsNFT.json";
+// import PradaNFT from "contracts/PradaNFT.json";
+// import Market from "contracts/Market.json";
 import Header from './components/Header'
 
+import { goodsNFTContract, pradaNFTContract, marketContract } from './Web3Client';
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <h2>Hello</h2>
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
 
-// const GoodsNFT = instance;
+const Index = () => {
 
-const App = () => {
-
-    const [web3, setWeb3] = useState(null);
-    const [goodsNFTContract, setContract] = useState(null);
-    const [pradaNFTContract, setPradaContract] = useState(null);
-    const [marketContract, setMarketContract] = useState(null);
-    const [account, setAccount] = useState("");
     const [tokenId, setTokenId] = useState("");
     const [listingId, setListingId] = useState("");
     const [tokensOnSale, setTokensOnSale] = useState([]);
     const [nftPrice, setNftPrice] = useState("");
     const [currentNftContract, setCurrentNftContract] = useState("");
-
+    const [account, setAccount] = useState("");
+    const [web3, setWeb3] = useState(null);
 
 
     useEffect(() => {
@@ -44,68 +34,6 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        const loadContract = async () => {
-            try {
-                const networkId = await web3.eth.net.getId();
-                const deployedNetwork = GoodsNFT.networks[networkId];
-                const instance = new web3.eth.Contract(
-                    GoodsNFT.abi,
-                    deployedNetwork && deployedNetwork.address
-                );
-                setContract(instance);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        if (web3) {
-            loadContract();
-        }
-    }, [web3]);
-
-    useEffect(() => {
-        const loadContract = async () => {
-            try {
-                const networkId = await web3.eth.net.getId();
-                const deployedNetwork = PradaNFT.networks[networkId];
-                const instance = new web3.eth.Contract(
-                    PradaNFT.abi,
-                    deployedNetwork && deployedNetwork.address
-                );
-                setPradaContract(instance);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        if (web3) {
-            loadContract();
-        }
-    }, [web3]);
-
-    useEffect(() => {
-        const loadContract = async () => {
-            try {
-                const networkId = await web3.eth.net.getId();
-                const deployedNetwork = Market.networks[networkId];
-                const instance = new web3.eth.Contract(
-                    Market.abi,
-                    deployedNetwork && deployedNetwork.address
-                );
-                // const campaigns = await marketContract.methods.getTokensOnSale().call();
-                // console.log(campaigns)
-                setMarketContract(instance);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        if (web3) {
-            loadContract();
-        }
-    }, [web3]);
-
-    useEffect(() => {
         const loadAccount = async () => {
             const accounts = await web3.eth.getAccounts();
             setAccount(accounts[0]);
@@ -115,39 +43,7 @@ const App = () => {
             loadAccount();
         }
     }, [web3]);
-
-    // useEffect(() => {
-    //     const listedTokens = async () => {
-    //         if (marketContract) {
-    //             try {
-    //                 const campaigns = await marketContract.methods.getTokensOnSale().call();
-    //                 console.log(campaigns)
-    //                 setNftListed(campaigns);
-    //             } catch (error) {
-    //                 console.error(error);
-    //             }
-    //         }
-    //     };
-
-    //     if (web3) {
-    //         listedTokens();
-    //     }
-
-    // }, [web3, marketContract]);
-
-    useEffect(() => {
-        const fetchNftsForSale = async () => {
-            if (marketContract) {
-                const totalSupply = await marketContract.methods.getTokensOnSale().call();
-                console.log(totalSupply)
-
-                setTokensOnSale(totalSupply);
-            }
-        };
-
-        fetchNftsForSale();
-    }, [marketContract]);
-
+    
 
     const putNFTForSale = async () => {
         if (marketContract) {
@@ -194,6 +90,10 @@ const App = () => {
         item => ({ label: item, value: item })
       );
 
+    // if (!account) {
+    //     return (<></>)
+    // }
+
     {
         return (
             <div>
@@ -202,16 +102,16 @@ const App = () => {
                     <h3>Manage NFTs</h3>
                     <h6 style={{ paddingBottom: 20 }}>Log in as: {account}</h6>
                     <Form style={{ paddingBottom: 100 }}>
-                        <Form.Group controlId="name">
+                        <Form.Group>
                             <Form.ControlLabel>TokenId</Form.ControlLabel>
                             <Form.Control type="number" onChange={(value) => setTokenId(value)} />
                         </Form.Group>
-                        <Form.Group controlId="email">
+                        <Form.Group>
                             <Form.ControlLabel>Price</Form.ControlLabel>
                             <Form.Control type="number" onChange={(value) => setNftPrice(value)} />
                             <Form.HelpText tooltip>Price is in wei!</Form.HelpText>
                         </Form.Group>
-                        <Form.Group controlId="email">
+                        <Form.Group>
                             <Form.ControlLabel>NFT Contract Address</Form.ControlLabel>
                             <SelectPicker data={data} style={{ width: 300 }} onChange={(value) => setCurrentNftContract(value)}/>
                         </Form.Group>
@@ -251,5 +151,5 @@ const App = () => {
 //     )
 // }
 
-export default App;
+export default Index;
 

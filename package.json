@@ -16,6 +16,7 @@
     "react-dom": "^18.2.0",
     "rsuite": "^5.35.1",
     "truffle-artifactor": "^4.0.30",
-    "web3": "^4.0.1"
+    "web3": "^4.0.1",
+    "contracts": "file:./ethereum/build/contracts"
   }
 }
