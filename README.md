@@ -5,7 +5,7 @@ After pulling this repo, to make it work on your local PC, do the following:
 Install the dependencies:
 Go to the GENUINE_GOODS_COIN folder:
 ```
-cd GENUINE_GOODS_FOLDER
+cd GENUINE_GOODS_COIN
 npm install
 ```
 
