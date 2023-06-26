@@ -1,4 +1,4 @@
-This repo contains a Web3 app. For further information, see:
+This repo contains a Web3 app.
 
 After pulling this repo, to make it work on your local PC, do the following:
 
@@ -52,8 +52,9 @@ This will compile and deploy the smart contracts to the ganache Network.
 After having done that, you can open the website on 'localhost:3000':
 
 To connect the test accounts ganache has generated for you, copy their private keys and import them into Metamask.
-To install Metamask, see: https://metamask.io
 You can find them listed in the console you ran ganache in.
+
+To install Metamask, see: https://metamask.io
 
 After having the account connected to Metamask as well as Metamask being connected to the website, you are good to go.
 
